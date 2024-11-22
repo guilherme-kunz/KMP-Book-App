@@ -18,7 +18,7 @@ private fun BookSearchBarPreview() {
             .background(Color.White)
     ) {
         BookSearchBar(
-            searchQuery = "Kotlin",
+            searchQuery = "",
             onSearchQueryChanged = {},
             onImeSearch = {},
             modifier = Modifier

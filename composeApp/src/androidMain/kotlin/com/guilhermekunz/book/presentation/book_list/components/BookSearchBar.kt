@@ -1,8 +1,12 @@
 package com.guilhermekunz.book.presentation.book_list.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -12,11 +16,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import com.guilhermekunz.core.presentation.DarkBlue
+import com.guilhermekunz.core.presentation.DesertWhite
 import com.guilhermekunz.core.presentation.SandYellow
 import kmp_book_app.composeapp.generated.resources.Res
+import kmp_book_app.composeapp.generated.resources.close_hint
 import kmp_book_app.composeapp.generated.resources.search_hint
 import org.jetbrains.compose.resources.stringResource
 
@@ -27,6 +37,14 @@ fun BookSearchBar(
     onImeSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    CompositionLocalProvider(
+        LocalTextSelectionColors provides TextSelectionColors(
+            handleColor = SandYellow,
+            backgroundColor = SandYellow
+        )
+    ) {
+        
+    }
     OutlinedTextField(
         value = searchQuery,
         onValueChange = onSearchQueryChanged,
@@ -53,6 +71,10 @@ fun BookSearchBar(
                 onImeSearch()
             }
         ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
         trailingIcon = {
             AnimatedVisibility(
                 visible = searchQuery.isNotBlank()
@@ -65,10 +87,16 @@ fun BookSearchBar(
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = stringResource(Res.string.close_hint),
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.66f)
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
-        }
+        },
+        modifier = modifier
+            .background(
+                shape = RoundedCornerShape(100),
+                color = DesertWhite
+            )
+            .minimumInteractiveComponentSize()
     )
 }
